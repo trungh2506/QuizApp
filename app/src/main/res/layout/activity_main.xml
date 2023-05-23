@@ -43,13 +43,13 @@
                 app:srcCompat="@drawable/timeclock" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/countdownTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:layout_marginRight="40dp"
                 android:layout_weight="0"
-                android:text="35s"
+                android:text="40s"
                 android:textColor="@color/black" />
 
             <ImageView
@@ -59,7 +59,7 @@
                 app:srcCompat="@drawable/baseline_quiz_24" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/txtCountQT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
@@ -82,6 +82,7 @@
             android:paddingBottom="20dp">
 
             <TextView
+                android:id="@+id/txt_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
@@ -89,7 +90,9 @@
                 android:text="Question "
                 android:textColor="@color/teal_700"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_optionA"
@@ -98,7 +101,8 @@
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="Answer">
 
                 <TextView
                     android:id="@+id/txt_optionA"
@@ -120,7 +124,8 @@
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="Answer">
 
                 <TextView
                     android:id="@+id/txt_optionB"
@@ -143,7 +148,8 @@
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="Answer">
 
                 <TextView
                     android:id="@+id/txt_optionC"
@@ -165,7 +171,8 @@
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                android:onClick="Answer">
 
                 <TextView
                     android:id="@+id/txt_optionD"
