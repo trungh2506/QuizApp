@@ -17,8 +17,11 @@ import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME ="QuizDB.db";
+    public static final int DATABASE_VERSION = 2;
+
     private static final String TABLE_NAME ="Question";
-    private static final String ID ="ID";
+    private static final String ID = "ID";
+    private static final String category = "Category";
     private static final String questionTitle ="QuestionTitle";
     private static final String optionA ="OptionA";
     private static final String optionB ="OptionB";
@@ -26,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String correctAnswer ="CorrectAnswer";
     private Context context;
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME,null, 1); //tạo csdl
+        super(context, DATABASE_NAME,null, DATABASE_VERSION); //tạo csdl
         Log.d("DBHelper", "DBHelper: ");
         this.context = context;
     }
@@ -34,6 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE Question("
                 + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "Category TEXT,"
                 + "QuestionTitle TEXT,"
                 + "OptionA TEXT,"
                 + "OptionB TEXT,"
@@ -44,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME);
         onCreate(db);
         Toast.makeText(context, "Drop successfully",
                 Toast.LENGTH_SHORT).show();
@@ -53,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addQuestion(QuestionModels question){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(category, question.getCategory());
         values.put(questionTitle, question.getQuestionTitle());
         values.put(optionA, question.getOptionA());
         values.put(optionB, question.getOptionB());
@@ -65,23 +70,35 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<QuestionModels> getAllQuestion() {
         ArrayList<QuestionModels> questionList = new ArrayList<QuestionModels>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+        String selectQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                String questionTitle = cursor.getString(1);
-                String optionA = cursor.getString(2);
-                String optionB = cursor.getString(3);
-                String optionC = cursor.getString(4);
-                String correctAnswer = cursor.getString(5);
-                QuestionModels question =  new QuestionModels(questionTitle, optionA, optionB, optionC, correctAnswer);
+                String category = cursor.getString(1);
+                String questionTitle = cursor.getString(2);
+                String optionA = cursor.getString(3);
+                String optionB = cursor.getString(4);
+                String optionC = cursor.getString(5);
+                String correctAnswer = cursor.getString(6);
+                QuestionModels question =  new QuestionModels(category, questionTitle, optionA, optionB, optionC, correctAnswer);
                 questionList.add(question);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
         return questionList;
+    }
+    public ArrayList<String> getDistinctCategories() {
+        ArrayList<String> categories = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT Category FROM Question" , null);
+        while (cursor.moveToNext()) {
+            String category = cursor.getString(0);
+            categories.add(category);
+        }
+        cursor.close();
+        return categories;
     }
     //Truy vấn không trả kết quả
     public void queryData(String sql){
