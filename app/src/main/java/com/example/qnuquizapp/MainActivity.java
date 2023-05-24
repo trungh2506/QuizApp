@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qnuquizapp.Helpers.DBHelper;
 import com.example.qnuquizapp.Models.QuestionModels;
 
 import java.util.ArrayList;
@@ -25,21 +27,28 @@ public class MainActivity extends AppCompatActivity {
     Button btn_next;
     TextView txt_opA,txt_opB,txt_opC,txt_opD,txt_QT,txt_countQT,txt_countdown;
     ConstraintLayout btn_1,btn_2,btn_3,btn_4;
-    ArrayList<QuestionModels> question_list = new ArrayList<>();
+    ArrayList<QuestionModels> question_list;
     private int CountQuestion = 0;
     private int numCorrect = 0;
     private int stime = 0;
     private int score = 0;
     MyCountDownTimer countDownTimer = new MyCountDownTimer(35000 , 1000);
+    //
+    private DBHelper DBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //create database and fill data
+        //createDatabase();
+        //Ánh xạ
         findID();
-
         //get data
-        QuestionSetOne();
+        //QuestionSetOne();
+        DBHelper = new DBHelper(this);
+        addQuestionToDB();
+        getQuestionFromDB();
+
 
         //display data
         bindingData(0);
@@ -89,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+//Ánh xạ
     private void findID(){
         txt_countdown = (TextView)findViewById(R.id.countdownTimer);
         btn_1 = (ConstraintLayout) findViewById(R.id.btn_optionA);
@@ -126,53 +135,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void QuestionSetOne(){
-        question_list.add(new QuestionModels("1. 1+1=?","1","3","4","2"));
-        question_list.add(new QuestionModels("2. 1+2=?","1","2","4","3"));
-        question_list.add(new QuestionModels("3. 1+3=?","1","3","2","4"));
-        question_list.add(new QuestionModels("4. 1+4=?","1","3","4","5"));
-        question_list.add(new QuestionModels("5. 1+5=?","1","3","4","6"));
-        question_list.add(new QuestionModels("6. 1+6=?","1","3","4","7"));
-        question_list.add(new QuestionModels("7. 1+7=?","1","3","4","8"));
-        question_list.add(new QuestionModels("8. 1+8=?","1","3","4","9"));
-        question_list.add(new QuestionModels("9. 2+9=?","1","3","4","11"));
-        question_list.add(new QuestionModels("10. 4+9=?","1","3","4","13"));
-
-    }
     private void bindingData(int number){
         //random option ___________________________________________________
-        ArrayList<String>opTion = new ArrayList<>();
-        ArrayList<String>opTion_ranDom = new ArrayList<>();
+        ArrayList<String>option = new ArrayList<>();
+        ArrayList<String>option_Random = new ArrayList<>();
 
         // lấy option vào  ArrayList tên opTion
-        opTion.add(question_list.get(number).getOptionA());
-        opTion.add(question_list.get(number).getOptionB());
-        opTion.add(question_list.get(number).getOptionC());
-        opTion.add(question_list.get(number).getCorrectAnswer());
+        option.add(question_list.get(number).getOptionA());
+        option.add(question_list.get(number).getOptionB());
+        option.add(question_list.get(number).getOptionC());
+        option.add(question_list.get(number).getCorrectAnswer());
 
         //Random opTion vào opTion_ranDom
-        Collections.shuffle(opTion);
-        for(String item : opTion){
-            opTion_ranDom.add(item);
+        Collections.shuffle(option);
+        for(String item : option){
+            option_Random.add(item);
         }
         //Print random
-        txt_QT.setText(question_list.get(number).getQuestion());
-        txt_opA.setText(opTion_ranDom.get(0));
-        txt_opB.setText(opTion_ranDom.get(1));
-        txt_opC.setText(opTion_ranDom.get(2));
-        txt_opD.setText(opTion_ranDom.get(3));
+        txt_QT.setText(question_list.get(number).getQuestionTitle());
+        txt_opA.setText(option_Random.get(0));
+        txt_opB.setText(option_Random.get(1));
+        txt_opC.setText(option_Random.get(2));
+        txt_opD.setText(option_Random.get(3));
 
-        //đóng nút Next để khi chưa chọn đáp án nào thì không cho phép sang ccau khác
+        //đóng nút Next để khi chưa chọn đáp án nào thì không cho phép sang câu khác
         btn_next.setEnabled(false);
     }
     public void Answer(View v){
         String getAnswer = "";
         switch (v.getId()){
             case R.id.btn_optionA:
-
                 //lấy đáp án người dùng
                 getAnswer = txt_opA.getText().toString();
-
                 // kiểm tra đúng hay không
                 if(CheckAnswer(txt_countQT.getText().toString(),getAnswer)){
                     //Cộn câu đúng
@@ -192,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
                 //bật nút next để sang câu hỏi tiếp theo
                 btn_next.setEnabled(true);
                 break;
-
             case R.id.btn_optionB:
                 getAnswer = txt_opB.getText().toString();
                 if(CheckAnswer(txt_countQT.getText().toString(),getAnswer)){
@@ -263,4 +256,24 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    //Thêm dữ liệu vào DB
+    public void addQuestionToDB(){
+        /*DBHelper.addQuestion(new QuestionModels(0,"1. a","1","3","4","2"));
+        DBHelper.addQuestion(new QuestionModels(1,"2. 1+2=?","1","2","4","3"));
+        DBHelper.addQuestion(new QuestionModels(2,"3. 1+3=?","1","3","2","4"));
+        DBHelper.addQuestion(new QuestionModels(3,"4. 1+4=?","1","3","4","5"));
+        DBHelper.addQuestion(new QuestionModels(4,"5. 1+5=?","1","3","4","6"));
+        DBHelper.addQuestion(new QuestionModels(5,"6. 1+6=?","1","3","4","7"));
+        DBHelper.addQuestion(new QuestionModels(6,"7. 1+7=?","1","3","4","8"));
+        DBHelper.addQuestion(new QuestionModels(7,"8. 1+8=?","1","3","4","9"));
+        DBHelper.addQuestion(new QuestionModels(8,"9. 2+9=?","1","3","4","11"));
+        DBHelper.addQuestion(new QuestionModels(9,"10. 4+9=?","1","3","4","13"));*/
+    }
+    //Lấy dữ liệu từ DB thêm vào question_list
+    public void getQuestionFromDB(){
+        question_list = DBHelper.getAllQuestion();
+        System.out.println(question_list.size());
+    }
+
 }
