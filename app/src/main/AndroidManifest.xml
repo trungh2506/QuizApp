@@ -12,13 +12,13 @@
         android:theme="@style/Theme.QNUQuizApp"
         tools:targetApi="31">
         <activity
-            android:name=".LoseActivity"
+            android:name=".MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".WinActivity"
+            android:name=".IntroActivity1"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +26,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"></activity>
     </application>
 
 </manifest>

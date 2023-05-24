@@ -102,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
-        android:id="@+id/btn_wExit"
+        android:id="@+id/btn_wHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="103dp"
@@ -114,12 +114,12 @@
         android:paddingTop="5dp"
         android:paddingRight="20dp"
         android:paddingBottom="5dp"
+        android:text="Home"
         android:textColor="@color/bg_white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_playagian"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        tools:text="Exit" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
