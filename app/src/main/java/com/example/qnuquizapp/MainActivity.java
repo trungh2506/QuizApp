@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         //get data
         //QuestionSetOne();
         DBHelper = new DBHelper(this);
+        clearAllQuestionFromDB();
         addQuestionToDB();
         getQuestionFromDB();
 
@@ -259,21 +260,24 @@ public class MainActivity extends AppCompatActivity {
 
     //Thêm dữ liệu vào DB
     public void addQuestionToDB(){
-        /*DBHelper.addQuestion(new QuestionModels(0,"1. a","1","3","4","2"));
-        DBHelper.addQuestion(new QuestionModels(1,"2. 1+2=?","1","2","4","3"));
-        DBHelper.addQuestion(new QuestionModels(2,"3. 1+3=?","1","3","2","4"));
-        DBHelper.addQuestion(new QuestionModels(3,"4. 1+4=?","1","3","4","5"));
-        DBHelper.addQuestion(new QuestionModels(4,"5. 1+5=?","1","3","4","6"));
-        DBHelper.addQuestion(new QuestionModels(5,"6. 1+6=?","1","3","4","7"));
-        DBHelper.addQuestion(new QuestionModels(6,"7. 1+7=?","1","3","4","8"));
-        DBHelper.addQuestion(new QuestionModels(7,"8. 1+8=?","1","3","4","9"));
-        DBHelper.addQuestion(new QuestionModels(8,"9. 2+9=?","1","3","4","11"));
-        DBHelper.addQuestion(new QuestionModels(9,"10. 4+9=?","1","3","4","13"));*/
+        DBHelper.addQuestion(new QuestionModels("1. Ngôn ngữ nào hiển thị được trên trình duyệt web","C","Python","C#","HTML"));
+        DBHelper.addQuestion(new QuestionModels("2. 1+2=?","1","2","4","3"));
+        DBHelper.addQuestion(new QuestionModels("3. 1+3=?","1","3","2","4"));
+        DBHelper.addQuestion(new QuestionModels("4. 1+4=?","1","3","4","5"));
+        DBHelper.addQuestion(new QuestionModels("5. 1+5=?","1","3","4","6"));
+        DBHelper.addQuestion(new QuestionModels("6. 1+6=?","1","3","4","7"));
+        DBHelper.addQuestion(new QuestionModels("7. 1+7=?","1","3","4","8"));
+        DBHelper.addQuestion(new QuestionModels("8. 1+8=?","1","3","4","9"));
+        DBHelper.addQuestion(new QuestionModels("9. 2+9=?","1","3","4","11"));
+        DBHelper.addQuestion(new QuestionModels("10. 4+9=?","1","3","4","13"));
     }
     //Lấy dữ liệu từ DB thêm vào question_list
     public void getQuestionFromDB(){
         question_list = DBHelper.getAllQuestion();
         System.out.println(question_list.size());
+    }
+    public void clearAllQuestionFromDB(){
+        DBHelper.queryData("DELETE FROM Question");
     }
 
 }

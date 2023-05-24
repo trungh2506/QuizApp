@@ -1,15 +1,13 @@
 package com.example.qnuquizapp.Models;
 
 public class QuestionModels {
-    private int ID;
     private String questionTitle;
     private String optionA;
     private String optionB;
     private String optionC;
     private String correctAnswer;
 
-    public QuestionModels(Integer ID, String questionTitle, String optionA, String optionB, String optionC, String correctAnswer) {
-        this.ID = ID;
+    public QuestionModels(String questionTitle, String optionA, String optionB, String optionC, String correctAnswer) {
         this.questionTitle = questionTitle;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -58,11 +56,4 @@ public class QuestionModels {
         this.correctAnswer = correctAnswer;
     }
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
 }

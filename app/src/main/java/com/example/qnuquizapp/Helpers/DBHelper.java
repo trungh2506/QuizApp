@@ -53,7 +53,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addQuestion(QuestionModels question){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ID, question.getID());
         values.put(questionTitle, question.getQuestionTitle());
         values.put(optionA, question.getOptionA());
         values.put(optionB, question.getOptionB());
@@ -71,13 +70,12 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                int ID = cursor.getInt(0);
                 String questionTitle = cursor.getString(1);
                 String optionA = cursor.getString(2);
                 String optionB = cursor.getString(3);
                 String optionC = cursor.getString(4);
                 String correctAnswer = cursor.getString(5);
-                QuestionModels question =  new QuestionModels(ID, questionTitle, optionA, optionB, optionC, correctAnswer);
+                QuestionModels question =  new QuestionModels(questionTitle, optionA, optionB, optionC, correctAnswer);
                 questionList.add(question);
             } while (cursor.moveToNext());
         }
