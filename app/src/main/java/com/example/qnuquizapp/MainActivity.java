@@ -26,7 +26,7 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
     MediaPlayer md_collect,md_wrong;
     Button btn_next;
-    TextView txt_opA,txt_opB,txt_opC,txt_opD,txt_QT,txt_countQT,txt_countdown;
+    TextView txt_opA,txt_opB,txt_opC,txt_opD,txt_QT,txt_countQT,txt_countdown, textCategoryName;
     ConstraintLayout btn_1,btn_2,btn_3,btn_4;
     ArrayList<QuestionModels> question_list;
     private int CountQuestion = 0;
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         txt_opD = (TextView) findViewById(R.id.txt_optionD);
         txt_countQT = (TextView)findViewById(R.id.txtCountQT);
         btn_next = (Button) findViewById(R.id.btn_next);
+        textCategoryName = (TextView) findViewById(R.id.textCategoryName);
     }
 
     //bấm giờ//////////////////////////
@@ -282,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         CategoryModels categorySelected = (CategoryModels) intent.getSerializableExtra("categorySelected");
         System.out.println("Người chơi đã chọn danh mục: "+ categorySelected);
+        textCategoryName.setText(categorySelected.getCategoryName().toString());
     }
 
 }
