@@ -1,8 +1,9 @@
 package com.example.qnuquizapp.Models;
 
-public class CategoryModels {
-    private String categoryName;
+import java.io.Serializable;
 
+public class CategoryModels implements Serializable {
+    private String categoryName;
     public CategoryModels(String categoryName) {
         this.categoryName = categoryName;
     }

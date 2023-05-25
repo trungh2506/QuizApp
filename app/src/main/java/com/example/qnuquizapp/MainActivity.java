@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qnuquizapp.Helpers.DBHelper;
+import com.example.qnuquizapp.Models.CategoryModels;
 import com.example.qnuquizapp.Models.QuestionModels;
 
 import java.util.ArrayList;
@@ -43,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
         //createDatabase();
         //Ánh xạ
         findID();
+        //Nhận intent
+        getIntentFromMenu();
         //get data
-        //QuestionSetOne();
         DBHelper = new DBHelper(this);
         clearAllQuestionFromDB();
         addQuestionToDB();
         getQuestionFromDB();
-
 
         //display data
         bindingData(0);
@@ -272,10 +273,15 @@ public class MainActivity extends AppCompatActivity {
     //Lấy dữ liệu từ DB thêm vào question_list
     public void getQuestionFromDB(){
         question_list = DBHelper.getAllQuestion();
-        System.out.println(question_list.size());
     }
     public void clearAllQuestionFromDB(){
         DBHelper.queryData("DELETE FROM Question");
+    }
+   //Nhận intent từ MenuActivity
+    public void getIntentFromMenu(){
+        Intent intent = getIntent();
+        CategoryModels categorySelected = (CategoryModels) intent.getSerializableExtra("categorySelected");
+        System.out.println("Người chơi đã chọn danh mục: "+ categorySelected);
     }
 
 }
