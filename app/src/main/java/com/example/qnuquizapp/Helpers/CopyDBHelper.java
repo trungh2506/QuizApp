@@ -156,11 +156,12 @@ public class CopyDBHelper extends SQLiteOpenHelper {
         openDataBase();
         Cursor cursor = db.rawQuery("SELECT * FROM Question WHERE Category = '" +categoryName+"'", null);
         cursor.moveToFirst();
-        while (cursor.moveToNext()){
+        while (!cursor.isAfterLast()){
             question = new QuestionModels(cursor.getString(1), cursor.getString(2),
                     cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6));
             questionList.add(question);
+            cursor.moveToNext();
         }
         cursor.close();
         close();
