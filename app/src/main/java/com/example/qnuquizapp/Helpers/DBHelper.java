@@ -8,17 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
 import com.example.qnuquizapp.Models.QuestionModels;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME ="QuizDB.db";
+    public static final String DATABASE_NAME = "databases/QuizDB.db";
     public static final int DATABASE_VERSION = 2;
-
     private static final String TABLE_NAME ="Question";
     private static final String ID = "ID";
     private static final String category = "Category";

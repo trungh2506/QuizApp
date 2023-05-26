@@ -4,17 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qnuquizapp.Helpers.CopyDBHelper;
 import com.example.qnuquizapp.Helpers.DBHelper;
 import com.example.qnuquizapp.Models.CategoryModels;
 import com.example.qnuquizapp.Models.QuestionModels;
@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     TextView txt_opA,txt_opB,txt_opC,txt_opD,txt_QT,txt_countQT,txt_countdown, textCategoryName;
     ConstraintLayout btn_1,btn_2,btn_3,btn_4;
     ArrayList<QuestionModels> question_list;
+
+    CategoryModels categorySelected;
     private int CountQuestion = 0;
     private int numCorrect = 0;
     private int stime = 0;
@@ -36,20 +38,26 @@ public class MainActivity extends AppCompatActivity {
     MyCountDownTimer countDownTimer = new MyCountDownTimer(35000 , 1000);
     //
     private DBHelper DBHelper;
+    private CopyDBHelper mCopyDBHelper;
+    SQLiteDatabase database = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //create database and fill data
-        //createDatabase();
         //Ánh xạ
         findID();
         //Nhận intent
         getIntentFromMenu();
         //get data
-        DBHelper = new DBHelper(this);
-        clearAllQuestionFromDB();
-        addQuestionToDB();
+        //DBHelper = new DBHelper(this);
+        //clearAllQuestionFromDB();
+       // addQuestionToDB();
+        mCopyDBHelper = new CopyDBHelper(this);
+        try {
+            mCopyDBHelper.createDataBase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         getQuestionFromDB();
 
         //display data
@@ -135,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void bindingData(int number){
         //random option ___________________________________________________
         ArrayList<String>option = new ArrayList<>();
@@ -158,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
         txt_opB.setText(option_Random.get(1));
         txt_opC.setText(option_Random.get(2));
         txt_opD.setText(option_Random.get(3));
-
         //đóng nút Next để khi chưa chọn đáp án nào thì không cho phép sang câu khác
         btn_next.setEnabled(false);
     }
@@ -258,22 +264,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Thêm dữ liệu vào DB
-    public void addQuestionToDB(){
-        DBHelper.addQuestion(new QuestionModels("IT","1. Ngôn ngữ nào hiển thị được trên trình duyệt web","C","Python","C#","HTML"));
-        DBHelper.addQuestion(new QuestionModels("Math","2. 1+2=?","1","2","4","3"));
-        DBHelper.addQuestion(new QuestionModels("Math","3. 1+3=?","1","3","2","4"));
-        DBHelper.addQuestion(new QuestionModels("Math","4. 1+4=?","1","3","4","5"));
-        DBHelper.addQuestion(new QuestionModels("Math","5. 1+5=?","1","3","4","6"));
-        DBHelper.addQuestion(new QuestionModels("Math","6. 1+6=?","1","3","4","7"));
-        DBHelper.addQuestion(new QuestionModels("Math","7. 1+7=?","1","3","4","8"));
-        DBHelper.addQuestion(new QuestionModels("Math","8. 1+8=?","1","3","4","9"));
-        DBHelper.addQuestion(new QuestionModels("Math","9. 2+9=?","1","3","4","11"));
-        DBHelper.addQuestion(new QuestionModels("Math","10. 4+9=?","1","3","4","13"));
-    }
     //Lấy dữ liệu từ DB thêm vào question_list
     public void getQuestionFromDB(){
-        question_list = DBHelper.getAllQuestion();
+        question_list = mCopyDBHelper.getQuestion(categorySelected.getCategoryName().toString());
+        System.out.println("Số câu hỏi: "+question_list.size());
     }
     public void clearAllQuestionFromDB(){
         DBHelper.queryData("DELETE FROM Question");
@@ -281,9 +275,10 @@ public class MainActivity extends AppCompatActivity {
    //Nhận intent từ MenuActivity
     public void getIntentFromMenu(){
         Intent intent = getIntent();
-        CategoryModels categorySelected = (CategoryModels) intent.getSerializableExtra("categorySelected");
+        categorySelected = (CategoryModels) intent.getSerializableExtra("categorySelected");
         System.out.println("Người chơi đã chọn danh mục: "+ categorySelected);
         textCategoryName.setText(categorySelected.getCategoryName().toString());
     }
+    //
 
 }

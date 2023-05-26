@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.example.qnuquizapp.Helpers.DBHelper;
 import com.example.qnuquizapp.Models.CategoryModels;
 
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ public class MenuActivity extends AppCompatActivity {
     private ArrayAdapter<CategoryModels> adpDM;
     private ConstraintLayout btn_start;
 
-    private DBHelper DBHelper;
+    //private DBHelper DBHelper;
     private CategoryModels categorySelected;
     private int position;
     @Override
