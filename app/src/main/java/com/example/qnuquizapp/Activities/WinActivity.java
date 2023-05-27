@@ -1,4 +1,4 @@
-package com.example.qnuquizapp;
+package com.example.qnuquizapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,17 +8,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class LoseActivity extends AppCompatActivity {
+import com.example.qnuquizapp.R;
 
-    MediaPlayer md_lose,md_btn;
-    TextView txt_score, txt_stime, btn_playAgain,btn_exit;
+public class WinActivity extends AppCompatActivity {
+
+    MediaPlayer md_victory,md_btn;
+
+    private TextView btn_exit,txt_score,btn_playagian,txt_stime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lose);
+        setContentView(R.layout.activity_win);
 
-        findID();
-
+        findId();
         //nhận data từ MainActivity _____________________________________
         Intent intent = getIntent();
         String score = intent.getStringExtra("score");
@@ -26,20 +28,21 @@ public class LoseActivity extends AppCompatActivity {
         txt_score.setText(score);
         txt_stime.setText(stime);
 
-        md_lose = MediaPlayer.create(this,R.raw.failll);
-        md_lose.start();
+        //get sound effect
+        md_victory  = MediaPlayer.create(this, R.raw.victory);
         md_btn = MediaPlayer.create(this,R.raw.btn);
+        md_victory.start();
 
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 md_btn.start();
-                Intent intent = new Intent(LoseActivity.this,MenuActivity.class);
+                Intent intent = new Intent(WinActivity.this,MenuActivity.class);
                 startActivity(intent);
             }
         });
-        btn_playAgain.setOnClickListener(new View.OnClickListener() {
+        btn_playagian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 md_btn.start();
@@ -49,10 +52,10 @@ public class LoseActivity extends AppCompatActivity {
         });
     }
 
-    private void findID() {
-        txt_score = (TextView) findViewById(R.id.txt_score);
-        txt_stime = (TextView) findViewById(R.id.txt_stime);
-        btn_playAgain = (TextView) findViewById(R.id.btn_playagian);
-        btn_exit = (TextView) findViewById(R.id.btn_Exit);
+    private void findId() {
+        btn_exit = (TextView) findViewById(R.id.btn_wHome);
+        btn_playagian = (TextView)findViewById(R.id.btn_playagian);
+        txt_score = (TextView)findViewById(R.id.txt_score);
+        txt_stime = (TextView)findViewById(R.id.txt_stime);
     }
 }

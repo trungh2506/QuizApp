@@ -1,4 +1,4 @@
-package com.example.qnuquizapp;
+package com.example.qnuquizapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -6,6 +6,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.qnuquizapp.R;
 
 public class IntroActivity1 extends AppCompatActivity {
 

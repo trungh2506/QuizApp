@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.qnuquizapp.Models.CategoryModels;
 import com.example.qnuquizapp.Models.QuestionModels;
 
 import java.io.File;
@@ -166,5 +167,20 @@ public class CopyDBHelper extends SQLiteOpenHelper {
         cursor.close();
         close();
         return questionList;
+    }
+    public ArrayList<CategoryModels> getAllCategory(){
+        ArrayList<CategoryModels> categoryList = new ArrayList<>();
+        CategoryModels category = null;
+        openDataBase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT Category FROM Question", null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            category = new CategoryModels(cursor.getString(0));
+            categoryList.add(category);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        close();
+        return categoryList;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.qnuquizapp;
+package com.example.qnuquizapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -10,7 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.qnuquizapp.Helpers.CopyDBHelper;
 import com.example.qnuquizapp.Models.CategoryModels;
+import com.example.qnuquizapp.R;
 
 import java.util.ArrayList;
 
@@ -24,13 +26,14 @@ public class MenuActivity extends AppCompatActivity {
     //private DBHelper DBHelper;
     private CategoryModels categorySelected;
     private int position;
+    private CopyDBHelper copyDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
         anhXa();
-
+        copyDBHelper = new CopyDBHelper(this);
         setArrayDanhMuc();
         adpDM = new ArrayAdapter<CategoryModels>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,arl_danhMuc);
         spn_danhmuc.setAdapter(adpDM);
@@ -60,10 +63,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_start = (ConstraintLayout) findViewById(R.id.btn_start);
     }
     private void setArrayDanhMuc() {
-        arl_danhMuc.add(new CategoryModels("IT"));
-        arl_danhMuc.add(new CategoryModels("Âm nhạc"));
-        arl_danhMuc.add(new CategoryModels("Toán"));
-        arl_danhMuc.add(new CategoryModels("Tiếng Anh"));
+        arl_danhMuc = copyDBHelper.getAllCategory();
     }
     //Lấy tên danh mục để truyền qua MainActivity bằng chuỗi "categorySelected"
     private void sendIntent(){

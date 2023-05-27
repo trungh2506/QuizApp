@@ -1,4 +1,4 @@
-package com.example.qnuquizapp;
+package com.example.qnuquizapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,6 +18,7 @@ import com.example.qnuquizapp.Helpers.CopyDBHelper;
 import com.example.qnuquizapp.Helpers.DBHelper;
 import com.example.qnuquizapp.Models.CategoryModels;
 import com.example.qnuquizapp.Models.QuestionModels;
+import com.example.qnuquizapp.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private int score = 0;
     MyCountDownTimer countDownTimer = new MyCountDownTimer(35000 , 1000);
     //
-    private DBHelper DBHelper;
+    //private DBHelper DBHelper;
     private CopyDBHelper mCopyDBHelper;
     SQLiteDatabase database = null;
     @Override
@@ -100,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("score",String.valueOf(score));
                         intent.putExtra("stime",String.valueOf(stime));
                         startActivity(intent);
-
                     }
 
                 }
@@ -263,14 +263,10 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
     //Lấy dữ liệu từ DB thêm vào question_list
     public void getQuestionFromDB(){
         question_list = mCopyDBHelper.getQuestion(categorySelected.getCategoryName().toString());
         System.out.println("Số câu hỏi: "+question_list.size());
-    }
-    public void clearAllQuestionFromDB(){
-        DBHelper.queryData("DELETE FROM Question");
     }
    //Nhận intent từ MenuActivity
     public void getIntentFromMenu(){
