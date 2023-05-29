@@ -14,6 +14,7 @@ import com.example.qnuquizapp.Helpers.CopyDBHelper;
 import com.example.qnuquizapp.Models.CategoryModels;
 import com.example.qnuquizapp.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity {
@@ -33,7 +34,11 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         anhXa();
-        copyDBHelper = new CopyDBHelper(this);
+        try {
+            copyDBHelper = new CopyDBHelper(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         setArrayDanhMuc();
         adpDM = new ArrayAdapter<CategoryModels>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,arl_danhMuc);
         spn_danhmuc.setAdapter(adpDM);

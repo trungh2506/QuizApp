@@ -15,11 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qnuquizapp.Helpers.CopyDBHelper;
-import com.example.qnuquizapp.Helpers.DBHelper;
 import com.example.qnuquizapp.Models.CategoryModels;
 import com.example.qnuquizapp.Models.QuestionModels;
 import com.example.qnuquizapp.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     //
     //private DBHelper DBHelper;
     private CopyDBHelper mCopyDBHelper;
-    SQLiteDatabase database = null;
+    //SQLiteDatabase database = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +52,16 @@ public class MainActivity extends AppCompatActivity {
         //get data
         //DBHelper = new DBHelper(this);
         //clearAllQuestionFromDB();
-       // addQuestionToDB();
-        mCopyDBHelper = new CopyDBHelper(this);
         try {
+            mCopyDBHelper = new CopyDBHelper(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    /*    try {
             mCopyDBHelper.createDataBase();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         getQuestionFromDB();
 
         //display data

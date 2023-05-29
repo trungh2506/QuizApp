@@ -29,70 +29,32 @@ public class CopyDBHelper extends SQLiteOpenHelper {
     private String DB_PATH;
     private SQLiteDatabase db;
 
-    public CopyDBHelper(Context context) {
-        super(context, DB_NAME, null, 2);
+    public CopyDBHelper(Context context) throws IOException {
+        super(context, DB_NAME, null, 3);
         this.myContext = context;
-        ContextWrapper cw = new ContextWrapper(context);
+        /*ContextWrapper cw = new ContextWrapper(context);*/
         DB_PATH =  "/data/data/com.example.qnuquizapp/databases/";
-        Log.e(TAG, "Databasehelper: DB_PATH " + DB_PATH);
+       /* Log.e(TAG, "Databasehelper: DB_PATH " + DB_PATH);
         outFileName = DB_PATH + DB_NAME;
         File file = new File(DB_PATH);
         Log.e(TAG, "CopyDBHelper: " + file.exists());
         if (!file.exists()) {
             file.mkdir();
+        }*/
+        getDatabase(context);
+    }
+    private void getDatabase(Context context) throws IOException {
+        File dbFile = new File(context.getDatabasePath((DB_NAME)).getPath());
+        if (dbFile.exists()) return; // Database found so all done
+        // Otherwise ensure that the database directory exists (does not by default until later versions)
+        if (!dbFile.getParentFile().exists()) {
+            dbFile.getParentFile().mkdirs();
+        }
+        if (!copyDataBase()) {
+            throw new RuntimeException("Unable to copy database from the asset (check the stack-trace).");
         }
     }
-
-    /**
-     * Creates a empty database on the system and rewrites it with your own database.
-     */
-    public void createDataBase() throws IOException {
-        boolean dbExist = checkDataBase();
-        if (dbExist) {
-            //do nothing - database already exist
-        } else {
-            //By calling this method and empty database will be created into the default system path
-            //of your application so we are gonna be able to overwrite that database with our database.
-            this.getReadableDatabase();
-            this.close();
-            try {
-                copyDataBase();
-            } catch (IOException e) {
-                throw new Error("Error copying database");
-            }
-        }
-    }
-
-    /**
-     * Check if the database already exist to avoid re-copying the file each time you open the application.
-     *
-     * @return true if it exists, false if it doesn't
-     */
-    private boolean checkDataBase() {
-        SQLiteDatabase checkDB = null;
-        try {
-            checkDB = SQLiteDatabase.openDatabase(outFileName, null, SQLiteDatabase.OPEN_READWRITE);
-        } catch (SQLiteException e) {
-            try {
-                copyDataBase();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-
-        if (checkDB != null) {
-            checkDB.close();
-        }
-        return checkDB != null ? true : false;
-    }
-
-    /**
-     * Copies your database from your local assets-folder to the just created empty database in the
-     * system folder, from where it can be accessed and handled.
-     * This is done by transfering bytestream.
-     */
-
-    private void copyDataBase() throws IOException {
+    private boolean copyDataBase() throws IOException {
 
         Log.i("Database",
                 "New database is being copied to device!");
@@ -116,7 +78,9 @@ public class CopyDBHelper extends SQLiteOpenHelper {
                     "New database has been copied to device!");
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public void openDataBase() throws SQLException {
@@ -183,4 +147,5 @@ public class CopyDBHelper extends SQLiteOpenHelper {
         close();
         return categoryList;
     }
+//https://stackoverflow.com/questions/71579799/why-isnt-my-sqlite-database-loading-from-assets-in-android-studio
 }
