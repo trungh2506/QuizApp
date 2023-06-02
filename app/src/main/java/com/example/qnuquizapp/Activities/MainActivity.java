@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
     //Lấy dữ liệu từ DB thêm vào question_list
     public void getQuestionFromDB(){
         question_list = mCopyDBHelper.getQuestion(categorySelected.getCategoryName().toString());
+        Collections.shuffle(question_list);
         System.out.println("Số câu hỏi: "+question_list.size());
     }
    //Nhận intent từ MenuActivity
