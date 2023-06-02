@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -34,9 +33,7 @@ public class MainActivity extends AppCompatActivity {
     CategoryModels categorySelected;
     private int CountQuestion = 0;
     private int numCorrect = 0;
-    private int stime = 0;
-    private int score = 0;
-    MyCountDownTimer countDownTimer = new MyCountDownTimer(35000 , 1000);
+    MyCountDownTimer countDownTimer = new MyCountDownTimer(60000 , 1000);
     //
     //private DBHelper DBHelper;
     private CopyDBHelper mCopyDBHelper;
@@ -92,19 +89,11 @@ public class MainActivity extends AppCompatActivity {
                     //nếu đủ 10 câu hỏi thì tính điêm
                 }else {
                     countDownTimer.cancel();
-                    stime = Integer.parseInt(String.valueOf(txt_countdown.getText()));
-                    score = numCorrect *(35- score);
-                    if(score >= 140){
-                        Intent intent = new Intent(MainActivity.this,WinActivity.class);
-                        intent.putExtra("score",String.valueOf(score));
-                        intent.putExtra("stime",String.valueOf(stime));
-                        startActivity(intent);
-                    }else {
-                        Intent intent = new Intent(MainActivity.this,LoseActivity.class);
-                        intent.putExtra("score",String.valueOf(score));
-                        intent.putExtra("stime",String.valueOf(stime));
-                        startActivity(intent);
-                    }
+                    int time = Integer.parseInt(String.valueOf(txt_countdown.getText()));
+                    Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+                    intent.putExtra("numCorrect",numCorrect);
+                    intent.putExtra("time",time);
+                    startActivity(intent);
 
                 }
             }
@@ -141,8 +130,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onFinish() {
-            Toast.makeText(MainActivity.this,"Time's up",Toast.LENGTH_SHORT).show();
             countDownTimer.cancel();
+            int time = Integer.parseInt(String.valueOf(txt_countdown.getText()));
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("numCorrect",numCorrect);
+            intent.putExtra("time",time);
+            startActivity(intent);
+            Toast.makeText(MainActivity.this,"Time's up",Toast.LENGTH_SHORT).show();
         }
     }
 

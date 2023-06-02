@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/btn_white"
     tools:context=".Activities.MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="184dp"
         android:background="@color/bg_white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -73,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/bg_white_radius"
             android:orientation="vertical"
             android:paddingLeft="20dp"
@@ -100,9 +104,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
+                android:onClick="Answer"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:onClick="Answer">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/txt_optionA"
@@ -123,9 +127,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
+                android:onClick="Answer"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:onClick="Answer">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/txt_optionB"
@@ -147,9 +151,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
+                android:onClick="Answer"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:onClick="Answer">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/txt_optionC"
@@ -170,9 +174,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_white"
+                android:onClick="Answer"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:onClick="Answer">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/txt_optionD"
@@ -188,12 +192,19 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:padding="20dp"
-            android:text="next" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:padding="20dp"
+        android:text="next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
