@@ -7,11 +7,25 @@
     android:background="@drawable/btn_white"
     tools:context=".Activities.MainActivity">
 
+    <TextView
+        android:id="@+id/textCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/bg_blue"
+        android:gravity="center|start"
+        android:paddingLeft="20dp"
+        android:paddingTop="30dp"
+        android:text="Science and Nature"
+        android:textColor="@color/bg_white"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="184dp"
         android:background="@color/bg_white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,18 +33,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textCategoryName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bg_blue"
-            android:paddingLeft="20dp"
-            android:paddingTop="40dp"
-            android:paddingBottom="20dp"
-            android:text="Science and Nature"
-            android:textColor="@color/bg_white"
-            android:textSize="34sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -55,22 +55,6 @@ public class ResultActivity extends AppCompatActivity {
         txt_score.setText(tinhDiem(soDung));
         txt_time.setText(tinhTimeConlai(time));
 
-//
-
-//
-//
-//        /////// display result ___________________________________________________
-//        int score = tinhDiem(soDung);
-//        int t = tinhTimeConlai(soTime);
-//        if( score >=240){
-//            md_victory.start();
-//            txt_result.setText("You Congrats :)");
-//        }else {
-//            md_lose.start();
-//            txt_result.setText("You Lose :(");
-//        }
-//        txt_score.setText(score);
-//        txt_time.setText(tinhTimeConlai(t));
 
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
